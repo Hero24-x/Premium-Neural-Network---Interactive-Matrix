@@ -1,4 +1,3 @@
-# Premium-Neural-Network---Interactive-Matrix
 # 🌐 Premium Neural Network - Interactive Matrix
 
 An elite, ultra-luxury 3D interactive network matrix built with cutting-edge front-end technology. This project features dynamic morphing capabilities, custom theme selectors, and fluid particle simulations that transform on command into complex mathematical structures like the Sphere Matrix, Infinity Torus, and Quantum Love Heart.
