@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neural Network - Ultimate 11 Formations & Love Edition</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght=200;300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.05);
+            --glass-highlight: rgba(255, 255, 255, 0.15);
+            --text-main: rgba(255, 255, 255, 0.95);
+            --text-muted: rgba(255, 255, 255, 0.5);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        body {
+            overflow: hidden;
+            background: #020204;
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-main);
+        }
+        canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        .glass-panel {
+            backdrop-filter: blur(30px) saturate(140%);
+            -webkit-backdrop-filter: blur(30px) saturate(140%);
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.002) 100%);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid var(--glass-highlight);
+            border-left: 1px solid var(--glass-highlight);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            position: absolute;
+            z-index: 10;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .glass-panel:hover {
+            border-color: rgba(212, 175, 55, 0.3);
+            transform: translateY(-2px);
+        }
+        #instructions-container {
+            top: 32px;
+            left: 32px;
+            width: 320px;
+            padding: 24px;
+        }
+        #instruction-title {
+            font-weight: 600;
+            font-size: 19px;
+            margin-bottom: 4px;
+            letter-spacing: 0.05em;
+            background: linear-gradient(135deg, #fff 40%, #f3e5ab 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .instruction-text {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--text-muted);
+            font-weight: 300;
+            margin-bottom: 12px;
+        }
+        
+        .insta-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 8px 14px;
+            border-radius: 30px;
+            color: #d4af37;
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            user-select: auto;
+            -webkit-user-select: auto;
+        }
+        .insta-badge:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: #d4af37;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+            transform: scale(1.02);
+        }
+        .insta-icon {
+            width: 14px;
+            height: 14px;
+            fill: currentcolor;
+        }
+
+        #current-design {
+            margin-top: 14px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #d4af37;
+            font-weight: 500;
+        }
+        #theme-selector {
+            top: 32px;
+            right: 32px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 240px;
+        }
+        #theme-selector-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .theme-button {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        #theme-1 { background: radial-gradient(circle, #fce38a, #9a7412); }
+        #theme-2 { background: radial-gradient(circle, #ff4b5c, #6b0110); }
+        #theme-3 { background: radial-gradient(circle, #00f2fe, #005f60); }
+
+        .theme-button.active {
+            border-color: #d4af37;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+            transform: scale(1.1);
+        }
+        #density-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .density-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .density-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            outline: none;
+        }
+        .density-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #d4af37;
+            cursor: pointer;
+        }
+        #control-buttons {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 16px;
+            z-index: 20;
+        }
+        .control-button {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-main);
+            padding: 12px 28px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+        .control-button:hover {
+            border-color: #d4af37;
+            background: rgba(255,255,255,0.08);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+        }
+        @media (max-width: 640px) {
+            #instructions-container { top: 16px; left: 16px; width: calc(100% - 32px); }
+            #theme-selector { bottom: 100px; top: auto; left: 16px; width: calc(100% - 32px); }
+        }
+    </style>
+</head>
+<body>
+
+<div id="instructions-container" class="glass-panel">
+    <div id="instruction-title">PREMIUM NEURAL  BY SHIBNATH HANSDA</div>
+    <div class="instruction-text">Move cursor to distort.<br>Luxury interactive network matrix.</div>
+    
+    <a href="https://instagram.com/ethicalhansda" target="_blank" class="insta-badge">
+        <svg class="insta-icon" viewBox="0 0 24 24">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+        </svg>
+        @ethicalhansda
+    </a>
+
+    <div id="current-design">Current: Sphere M5atrix</div>
+</div>
+
+<div id="theme-selector" class="glass-panel">
+    <div id="theme-selector-title">Exclusive Themes</div>
+    <div class="theme-grid">
+        <button class="theme-button active" id="theme-1" data-theme="0"></button>
+        <button class="theme-button" id="theme-2" data-theme="1"></button>
+        <button class="theme-button" id="theme-3" data-theme="2"></button>
+    </div>
+    <div id="density-controls">
+        <div class="density-label"><span>Node Count</span><span id="density-value">550</span></div>
+        <input type="range" min="200" max="800" value="550" class="density-slider" id="density-slider">
+    </div>
+</div>
+
+<div id="control-buttons">
+    <button id="change-formation-btn" class="control-button">Morph</button>
+    <button id="pause-play-btn" class="control-button">Freeze</button>
+</div>
+
+<canvas id="neural-network-canvas"></canvas>
+
+<script type="importmap">
+{
+    "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.162.0/examples/jsm/"
+    }
+}
+</script>
+
+<script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+    import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+    import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+    import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+    import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+    const palettes = [
+        { main: 0xd4af37, secondary: 0xf3e5ab, particle: 0xffffff }, 
+        { main: 0xff2a4b, secondary: 0x9a001c, particle: 0xff758c }, 
+        { main: 0x00f2fe, secondary: 0x00a896, particle: 0xf0fff4 }  
+    ];
+
+    const formationNames = [
+        "Sphere Matrix",
+        "Infinity Torus",
+        "Digital Grid Wave",
+        "Bio-Cyber DNA Helix",
+        "Secure Cylinder Vault",
+        "Cosmic Geometric Rose",
+        "Hypercube Tesseract",
+        "Hourglass Chronos",
+        "Saturn Ring System",
+        "Pyramid Monolith",
+        "Quantum Love Heart" 
+    ];
+
+    let currentPalette = palettes[0];
+    let isPaused = false;
+    let formationType = 0; 
+
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x020204, 0.015);
+
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 1, 24);
+
+    const canvas = document.getElementById('neural-network-canvas');
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 0.4;
+
+    const mouse = new THREE.Vector2(-9999, -9999);
+    const raycaster = new THREE.Raycaster();
+    const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0); 
+    const mouse3D = new THREE.Vector3();
+
+    let nodeCount = 550;
+    let nodesGeometry = new THREE.BufferGeometry();
+    let nodesMaterial = new THREE.PointsMaterial({
+        size: 0.24,
+        vertexColors: true,
+        transparent: true,
+        blending: THREE.AdditiveBlending
+    });
+
+    let nodePoints = new THREE.Points(nodesGeometry, nodesMaterial);
+    scene.add(nodePoints);
+
+    const lineMaterial = new THREE.LineBasicMaterial({
+        transparent: true,
+        opacity: 0.16,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+    });
+    let lineSegments = new THREE.LineSegments(new THREE.BufferGeometry(), lineMaterial);
+    scene.add(lineSegments);
+
+    let positions = [];
+    let velocities = [];
+    let targetPositions = [];
+    let basePositions = []; 
+    let colors = [];
+
+    function generateNodes() {
+        positions = [];
+        velocities = [];
+        targetPositions = [];
+        basePositions = [];
+        colors = [];
+
+        const color1 = new THREE.Color(currentPalette.main);
+        const color2 = new THREE.Color(currentPalette.secondary);
+
+        for (let i = 0; i < nodeCount; i++) {
+            let x = (Math.random() - 0.5) * 20;
+            let y = (Math.random() - 0.5) * 20;
+            let z = (Math.random() - 0.5) * 20;
+            positions.push(x, y, z);
+            targetPositions.push(x, y, z);
+            basePositions.push(x, y, z);
+
+            velocities.push(
+                (Math.random() - 0.5) * 0.01,
+                (Math.random() - 0.5) * 0.01,
+                (Math.random() - 0.5) * 0.01
+            );
+
+            const mixedColor = color1.clone().lerp(color2, Math.random());
+            colors.push(mixedColor.r, mixedColor.g, mixedColor.b);
+        }
+
+        nodesGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+        nodesGeometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+        updateFormation();
+    }
+
+    function updateFormation() {
+        for (let i = 0; i < nodeCount; i++) {
+            let i3 = i * 3;
+            
+            if (formationType === 0) { 
+                const u = Math.random(); const v = Math.random();
+                const theta = u * 2.0 * Math.PI; const phi = Math.acos(2.0 * v - 1.0);
+                const r = 8;
+                basePositions[i3] = r * Math.sin(phi) * Math.cos(theta);
+                basePositions[i3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+                basePositions[i3 + 2] = r * Math.cos(phi);
+
+            } else if (formationType === 1) { 
+                const u = Math.random() * Math.PI * 2; const v = Math.random() * Math.PI * 2;
+                const R = 8, r = 3;
+                basePositions[i3] = (R + r * Math.cos(v)) * Math.cos(u);
+                basePositions[i3 + 1] = (R + r * Math.cos(v)) * Math.sin(u);
+                basePositions[i3 + 2] = r * Math.sin(v);
+
+            } else if (formationType === 2) { 
+                basePositions[i3] = ((i % 24) - 12) * 1.2;
+                basePositions[i3 + 1] = (Math.sin(i * 0.25) * 1.8);
+                basePositions[i3 + 2] = (Math.floor(i / 24) - 11) * 1.2;
+
+            } else if (formationType === 3) { 
+                const t = (i / nodeCount) * Math.PI * 8; const strand = (i % 2 === 0) ? 0 : Math.PI; const r = 4;
+                basePositions[i3] = r * Math.cos(t + strand);
+                basePositions[i3 + 1] = (i / nodeCount) * 16 - 8; 
+                basePositions[i3 + 2] = r * Math.sin(t + strand);
+
+            } else if (formationType === 4) { 
+                const theta = (i / nodeCount) * Math.PI * 2 * 15; const r = 6;
+                basePositions[i3] = r * Math.cos(theta);
+                basePositions[i3 + 1] = (Math.random() - 0.5) * 14; 
+                basePositions[i3 + 2] = r * Math.sin(theta);
+
+            } else if (formationType === 5) { 
+                const theta = i * 0.08; const r = 0.4 * theta; 
+                basePositions[i3] = r * Math.cos(theta);
+                basePositions[i3 + 1] = Math.sin(theta * 2) * 1.5;
+                basePositions[i3 + 2] = r * Math.sin(theta);
+
+            } else if (formationType === 6) { 
+                const segment = i % 8; const scale = 6; const inner = 0.5; const offset = (Math.random() - 0.5) * scale; const isInner = i % 2 === 0 ? inner : 1;
+                basePositions[i3] = (segment === 0 || segment === 1 ? 1 : -1) * scale * isInner + (segment > 4 ? offset*0.1 : 0);
+                basePositions[i3+1] = (segment === 1 || segment === 2 ? 1 : -1) * scale * isInner;
+                basePositions[i3+2] = (segment === 2 || segment === 3 ? 1 : -1) * scale * isInner;
+
+            } else if (formationType === 7) { 
+                const zNorm = (i / nodeCount) * 2 - 1; const r = Math.pow(zNorm, 2) * 6 + 1.5; const theta = Math.random() * Math.PI * 2;
+                basePositions[i3] = r * Math.cos(theta);
+                basePositions[i3+1] = zNorm * 8;
+                basePositions[i3+2] = r * Math.sin(theta);
+
+            } else if (formationType === 8) { 
+                if (i % 3 === 0) { 
+                    const u = Math.random(); const v = Math.random(); const theta = u * 2.0 * Math.PI; const phi = Math.acos(2.0 * v - 1.0);
+                    basePositions[i3] = 3.5 * Math.sin(phi) * Math.cos(theta); basePositions[i3+1] = 3.5 * Math.sin(phi) * Math.sin(theta); basePositions[i3+2] = 3.5 * Math.cos(phi);
+                } else { 
+                    const r = Math.random() * 5 + 6; const theta = Math.random() * Math.PI * 2;
+                    basePositions[i3] = r * Math.cos(theta); basePositions[i3+1] = (Math.random() - 0.5) * 0.5; basePositions[i3+2] = r * Math.sin(theta);
+                }
+
+            } else if (formationType === 9) { 
+                const height = Math.random() * 10 - 5; const widthFactor = (5 - height) / 10; const theta = Math.random() * Math.PI * 2; const r = Math.random() * 8 * widthFactor;
+                basePositions[i3] = r * Math.cos(theta); basePositions[i3+1] = height; basePositions[i3+2] = r * Math.sin(theta);
+            
+            } else if (formationType === 10) { // UPGRADED GIANT 3D HEART
+                const t = Math.PI * 2 * (i / nodeCount) * 4; 
+                // Increased Scale to 0.95 for maximum size on screen
+                const scale = 0.95;
+                
+                const x = 16 * Math.pow(Math.sin(t), 3);
+                const y = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
+                
+                basePositions[i3] = x * scale;
+                basePositions[i3+1] = (y * scale) - 1.5; 
+                // Increased depth thickness to make it a massive 3D volume shape
+                basePositions[i3+2] = (Math.random() - 0.5) * 8.0; 
+            }
+
+            targetPositions[i3] = basePositions[i3];
+            targetPositions[i3+1] = basePositions[i3+1];
+            targetPositions[i3+2] = basePositions[i3+2];
+        }
+        document.getElementById('current-design').innerText = `Current: ${formationNames[formationType]}`;
+    }
+
+    const composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
+    const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.2, 0.4, 0.85);
+    composer.addPass(bloomPass);
+    composer.addPass(new OutputPass());
+
+    generateNodes();
+
+    const starGeo = new THREE.BufferGeometry();
+    const starPos = [];
+    for(let i=0; i<2000; i++) {
+        starPos.push((Math.random()-0.5)*100, (Math.random()-0.5)*100, (Math.random()-0.5)*100);
+    }
+    starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starPos, 3));
+    const starMat = new THREE.PointsMaterial({size: 0.05, color: currentPalette.particle});
+    const stars = new THREE.Points(starGeo, starMat);
+    scene.add(stars);
+
+    const clock = new THREE.Clock();
+
+    function animate() {
+        requestAnimationFrame(animate);
+        
+        if (!isPaused) {
+            const time = clock.getElapsedTime();
+            const posAttr = nodesGeometry.getAttribute('position');
+
+            raycaster.setFromCamera(mouse, camera);
+            raycaster.ray.intersectPlane(plane, mouse3D);
+            
+            let linePositions = [];
+            for (let i = 0; i < nodeCount; i++) {
+                let i3 = i * 3;
+                
+                let dxMouse = posAttr.array[i3] - mouse3D.x;
+                let dyMouse = posAttr.array[i3+1] - mouse3D.y;
+                let dzMouse = posAttr.array[i3+2] - mouse3D.z;
+                let mouseDist = Math.sqrt(dxMouse*dxMouse + dyMouse*dyMouse + dzMouse*dzMouse);
+
+                if (mouseDist < 6.0) {
+                    let force = (6.0 - mouseDist) / 6.0;
+                    targetPositions[i3] = basePositions[i3] + (dxMouse / mouseDist) * force * 4.2;
+                    targetPositions[i3+1] = basePositions[i3+1] + (dyMouse / mouseDist) * force * 4.2;
+                } else {
+                    targetPositions[i3] = basePositions[i3];
+                    targetPositions[i3+1] = basePositions[i3+1];
+                }
+
+                posAttr.array[i3] += (targetPositions[i3] - posAttr.array[i3]) * 0.06 + velocities[i3];
+                posAttr.array[i3+1] += (targetPositions[i3+1] - posAttr.array[i3+1]) * 0.06 + velocities[i3+1];
+                posAttr.array[i3+2] += (targetPositions[i3+2] - posAttr.array[i3+2]) * 0.06 + velocities[i3+2];
+
+                if(formationType === 2 || formationType === 5 || formationType === 10) {
+                    posAttr.array[i3+1] += Math.sin(time + posAttr.array[i3]) * 0.012;
+                }
+            }
+            posAttr.needsUpdate = true;
+
+            // Increased line connectivity for the Heart form so it looks solid and big
+            let maxDist = formationType === 10 ? 5.0 : (formationType === 6 ? 5.5 : 4.0); 
+            for (let i = 0; i < nodeCount; i++) {
+                for (let j = i + 1; j < nodeCount; j++) {
+                    let dx = posAttr.array[i*3] - posAttr.array[j*3];
+                    let dy = posAttr.array[i*3+1] - posAttr.array[j*3+1];
+                    let dz = posAttr.array[i*3+2] - posAttr.array[j*3+2];
+                    let dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
+
+                    if (dist < maxDist) { 
+                        linePositions.push(posAttr.array[i*3], posAttr.array[i*3+1], posAttr.array[i*3+2]);
+                        linePositions.push(posAttr.array[j*3], posAttr.array[j*3+1], posAttr.array[j*3+2]);
+                    }
+                }
+            }
+            lineSegments.geometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+            lineSegments.geometry.computeBoundingSphere();
+        }
+
+        controls.update();
+        composer.render();
+    }
+
+    window.addEventListener('mousemove', (e) => {
+        mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    });
+
+    window.addEventListener('mouseleave', () => {
+        mouse.set(-9999, -9999);
+    });
+
+    document.querySelectorAll('.theme-button').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            document.querySelectorAll('.theme-button').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            currentPalette = palettes[parseInt(e.target.dataset.theme)];
+            lineMaterial.color.setHex(currentPalette.main);
+            starMat.color.setHex(currentPalette.particle);
+            document.querySelector('.insta-badge').style.color = '#' + currentPalette.main.toString(16);
+            generateNodes();
+        });
+    });
+
+    document.getElementById('density-slider').addEventListener('input', (e) => {
+        nodeCount = parseInt(e.target.value);
+        document.getElementById('density-value').innerText = nodeCount;
+        generateNodes();
+    });
+
+    document.getElementById('change-formation-btn').addEventListener('click', () => {
+        formationType = (formationType + 1) % 11; 
+        updateFormation();
+    });
+
+    const pauseBtn = document.getElementById('pause-play-btn');
+    pauseBtn.addEventListener('click', () => {
+        isPaused = !isPaused;
+        pauseBtn.innerText = isPaused ? "Resume" : "Freeze";
+    });
+
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        composer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    lineMaterial.color.setHex(currentPalette.main);
+    animate();
+</script>
+</body>
+</html>
