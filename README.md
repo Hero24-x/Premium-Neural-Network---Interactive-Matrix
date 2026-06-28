@@ -39,3 +39,12 @@ All you need is a modern web browser (Chrome, Edge, Firefox, Brave, or Safari) t
 1. Clone the repository:
    ```bash
    git clone [https://github.com/Hero24-x/Premium-Neural-Network---Interactive-Matrix]
+
+###📂 Project Structure
+├── index.html        # Main landing page & Canvas container
+├── style.css         # Glassmorphic UI design, layouts, & keyframes
+└── script.js        # Matrix logic, math functions, & canvas rendering
+
+###👨‍💻 Author
+Shibnath Hansda (Hero) - Lead Developer & Cybersecurity Professional - HansdaTechs [cite: The user's Google activity does not fully represent the user. The user contains multitudes, and this summary is an incomplete and imperfect representation.
+
