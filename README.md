@@ -1,50 +1,111 @@
-# 🌐 Premium Neural Network - Interactive Matrix
+# 🌐 Premium Neural Network Matrix
 
-An elite, ultra-luxury 3D interactive network matrix built with cutting-edge front-end technology. This project features dynamic morphing capabilities, custom theme selectors, and fluid particle simulations that transform on command into complex mathematical structures like the Sphere Matrix, Infinity Torus, and Quantum Love Heart.
-
-Developed by **Shibnath Hansda (Hero)** under the brand **HansdaTechs** [cite: The user's Google activity does not fully represent the user. The user contains multitudes, and this summary is an incomplete and imperfect representation.
-
-**Demographics Information**
-
-* The user is named Shibnath Hansda and identifies professionally as a cybersecurity expert and digital solutions provider under the brand HansdaTechs.
-    * Evidence: Self-identification in video scripts and branding requests as Shibnath Hansda, the lead of HansdaTechs. Conversation Date: 2025-06 to 2025-10.
-* The user utilizes the alias or persona Hero in his professional content and personal interactions.
-    * Evidence: Explicit self-declaration as "Main hoon Hero" and "Me hu hero" across multiple sessions. Conversation Date: 2025-06 to 2026-03.].
+An advanced 3D interactive neural network visualization built with modern web technologies. The project features real-time particle simulations, dynamic geometry morphing, customizable themes, and immersive visual effects designed to showcase mathematical structures and network intelligence in an elegant digital environment.
 
 ---
 
 ## ✨ Features
 
-* **Dynamic Morphing:** Seamless transitions between multiple 3D particle geometries (`Sphere Matrix`, `Infinity Torus`, `Digital Grid Wave`, `Bio-Cyber DNA Helix`, `Quantum Love Heart`, etc.).
-* **Interactive Controls:** Users can freeze simulations, trigger morphing animations, and interactively manipulate nodes via mouse proximity.
-* **Exclusive Themes & Customization:** On-the-fly theme switcher with color profile updates and full control over live particle/node density counts.
-* **Glassmorphic UI Control Panel:** A sleek, glassy control overlay designed for responsiveness across devices.
+### Dynamic Geometry Morphing
+
+Transform the particle network into multiple mathematical and artistic structures:
+
+* Sphere Matrix
+* Infinity Torus
+* Digital Grid Wave
+* DNA Helix
+* Quantum Heart
+* Neural Network Core
+
+### Real-Time Interaction
+
+* Mouse-responsive particle behavior
+* Interactive node attraction effects
+* Smooth transition animations
+* Live simulation controls
+
+### Customizable Experience
+
+* Multiple premium themes
+* Adjustable particle density
+* Performance optimization controls
+* Responsive glassmorphic interface
+
+### High-Performance Rendering
+
+* Optimized Canvas rendering
+* Smooth animations
+* Lightweight architecture
+* Cross-browser compatibility
 
 ---
 
 ## 🛠️ Tech Stack
 
-* **HTML5 & CSS3:** Vanilla structural architecture paired with high-end glassmorphism styling and custom cubic-bezier transitions.
-* **JavaScript:** Core animation logic, mathematical coordinate generation, and state management for interactive controls.
-* **WebGL / Canvas:** High-performance rendering engine utilized to run smooth 60fps particle matrix nodes directly in the browser viewport.
+| Technology              | Purpose                            |
+| ----------------------- | ---------------------------------- |
+| HTML5                   | Structure & Layout                 |
+| CSS3                    | Styling & Glassmorphism Effects    |
+| JavaScript (ES6+)       | Animation Logic & State Management |
+| Canvas API              | Real-Time Rendering                |
+| Mathematical Algorithms | Shape Generation & Morphing        |
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Installation
 
-### Prerequisites
-All you need is a modern web browser (Chrome, Edge, Firefox, Brave, or Safari) to view the canvas animations locally.
+Clone the repository:
 
-### Installation
-1. Clone the repository:
-   ```bash
-   git clone [https://github.com/Hero24-x/Premium-Neural-Network---Interactive-Matrix]
+```bash
+git clone https://github.com/Hero24-x/Premium-Neural-Network---Interactive-Matrix.git
+```
 
-###📂 Project Structure
-├── index.html        # Main landing page & Canvas container
-├── style.css         # Glassmorphic UI design, layouts, & keyframes
-└── script.js        # Matrix logic, math functions, & canvas rendering
+Navigate to the project directory:
 
-###👨‍💻 Author
-Shibnath Hansda (Hero) - Lead Developer & Cybersecurity Professional - HansdaTechs [cite: The user's Google activity does not fully represent the user. The user contains multitudes, and this summary is an incomplete and imperfect representation.
+```bash
+cd Premium-Neural-Network---Interactive-Matrix
+```
 
+Open `index.html` in your browser.
+
+---
+
+## 📂 Project Structure
+
+```text
+├── index.html
+├── style.css
+└── script.js
+```
+
+### File Overview
+
+* **index.html** → Application structure and canvas container
+* **style.css** → Glassmorphism UI, animations, and responsive design
+* **script.js** → Particle engine, geometry generation, and interaction logic
+
+---
+
+## 🎯 Highlights
+
+* Advanced particle simulation system
+* Interactive neural network visualization
+* Real-time geometry transformations
+* Premium glassmorphic user interface
+* Fully browser-based experience
+* No external frameworks required
+
+---
+
+## 👨‍💻 Author
+
+**Shibnath Hansda (Hero)**
+Cybersecurity Enthusiast | Front-End Developer | Founder of HansdaTechs
+
+GitHub: https://github.com/Hero24-x
+
+---
+
+## 📜 License
+
+This project is available under the MIT License.
