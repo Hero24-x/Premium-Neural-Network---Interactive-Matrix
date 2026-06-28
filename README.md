@@ -38,4 +38,4 @@ All you need is a modern web browser (Chrome, Edge, Firefox, Brave, or Safari) t
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPOSITORY_NAME.git](https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPOSITORY_NAME.git
+   git clone [https://github.com/Hero24-x/Premium-Neural-Network---Interactive-Matrix]
