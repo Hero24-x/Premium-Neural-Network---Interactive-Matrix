@@ -162,6 +162,8 @@ https://github.com/Hero24-x
 🔗 Live Project
 https://hero-neural-network.netlify.app/
 
+    Instagram
+    https://instagram.com/ethicalhansda/
 ---
 
 ## ⭐ Support
